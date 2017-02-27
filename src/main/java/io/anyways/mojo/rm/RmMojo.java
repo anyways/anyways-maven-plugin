@@ -8,7 +8,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo( name = "rm" )
+@Mojo( name = "rm", requiresProject = false )
 public class RmMojo extends AbstractMojo {
 
 	@Parameter( readonly = true, required = true, property = "target" )
