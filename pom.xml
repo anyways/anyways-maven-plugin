@@ -3,12 +3,12 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.anyways.mojo</groupId>
-  <artifactId>rm-maven-plugin</artifactId>
+  <groupId>io.github.anyways.mojo</groupId>
+  <artifactId>anyways-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <version>1.0.0</version>
-  <name>Remove Maven Plugin</name>
-  <url>https://github.com/anyways/rm-maven-plugin</url>
+  <name>Anyways Maven Plugin</name>
+  <url>https://github.com/anyways/anyways-maven-plugin</url>
 
   <dependencies>
     <dependency>
@@ -34,7 +34,7 @@
         <configuration>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
           <encoding>utf-8</encoding>
-          <goalPrefix>rm</goalPrefix>
+          <goalPrefix>anyways</goalPrefix>
         </configuration>
         <executions>
           <execution>
