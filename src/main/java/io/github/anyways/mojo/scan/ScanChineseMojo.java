@@ -1,8 +1,10 @@
 package io.github.anyways.mojo.scan;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +25,9 @@ public class ScanChineseMojo extends AbstractMojo {
 	@Parameter(readonly = true, required = true, property = "base")
 	private File baseDirectory;
 
+	@Parameter(readonly = true, required = false, property = "target")
+	private File targetFile;
+
 	private List<File> javaFiles = new ArrayList<File>();
 
 	private Pattern pattern = Pattern.compile("[\u4e00-\u9fa5]+");
@@ -40,8 +45,40 @@ public class ScanChineseMojo extends AbstractMojo {
 		for (File javaFile : javaFiles) {
 			scanJavaFile(javaFile);
 		}
+		BufferedWriter bw = null;
+		if (targetFile != null) {
+			if (!targetFile.exists()) {
+				try {
+					targetFile.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				bw = new BufferedWriter(new FileWriter(targetFile));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		String line = null;
 		for (T t : finds) {
-			getLog().info(String.format("%s:%d:%s", t.getJavaFile().getName(), t.getLine(), t.getContent()));
+			line = String.format("%s:%d:%s", t.getJavaFile().getPath(), t.getLine(), t.getContent());
+			getLog().info(line);
+			if (targetFile != null) {
+				try {
+					bw.write(line);
+					bw.newLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		if (bw != null) {
+			try {
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -52,7 +89,9 @@ public class ScanChineseMojo extends AbstractMojo {
 					searchFiles(file);
 				}
 			} else {
-				javaFiles.add(target);
+				if (target.getName().endsWith(".java")) {
+					javaFiles.add(target);
+				}
 			}
 		}
 	}
