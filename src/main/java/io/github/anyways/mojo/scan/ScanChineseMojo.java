@@ -129,7 +129,7 @@ public class ScanChineseMojo extends AbstractMojo {
 				}
 				Matcher m = pattern.matcher(line);
 				if (m.find()) {
-					finds.add(new T(javaFile, i, m.group()));
+					finds.add(new T(javaFile, i, line));
 				}
 			}
 		} catch (IOException e) {
